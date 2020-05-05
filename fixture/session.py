@@ -1,3 +1,4 @@
+from selenium.common.exceptions import NoSuchElementException
 
 class SessionHelper:
 
@@ -16,4 +17,10 @@ class SessionHelper:
 
     def logout(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("Logout").click()
+        try:
+            elem = wd.find_element_by_link_text("Logout")
+            elem.click()
+            elem.click() #почему-то не срабатывает без повторного клика по ссылке Logout
+        except NoSuchElementException:
+            print("O-ops!")
+        
