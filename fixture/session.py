@@ -20,7 +20,8 @@ class SessionHelper:
         try:
             elem = wd.find_element_by_link_text("Logout")
             elem.click()
-            elem.click() #почему-то не срабатывает без повторного клика по ссылке Logout
+            wd.find_element_by_name("user")
+            #elem.click() #почему-то не срабатывает без повторного клика по ссылке Logout
         except NoSuchElementException:
             print("O-ops!")
         
