@@ -4,6 +4,11 @@ class GroupHelper:
     def __init__(self, app):
         self.app = app
 
+    def count(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        return len(wd.find_elements_by_name("selected[]"))
+
     def modify_first(self, group):
         wd = self.app.wd
         self.open_groups_page()

@@ -4,6 +4,11 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
+    def count(self):
+        wd = self.app.wd
+        self.open_list_of_contact()
+        return len(wd.find_elements_by_name("selected[]"))
+
     def modify_first(self, contact):
         wd = self.app.wd
         self.open_list_of_contact()
