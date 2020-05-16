@@ -24,7 +24,7 @@ class SessionHelper:
             wd.find_element_by_name("user")
             #elem.click() #почему-то не срабатывает без повторного клика по ссылке Logout
         except NoSuchElementException:
-            print("O-ops!")
+            pass
 
     def is_logged_in(self):
         wd = self.app.wd
