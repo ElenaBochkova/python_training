@@ -6,18 +6,21 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.open_list_of_contact()
-        contacts = wd.find_elements_by_name("entry")
-        contact_list = []
-        for element in contacts:
-            fname = element.find_element_by_xpath(".//td[3]").text
-            lname = element.find_element_by_xpath(".//td[2]").text
-            phone = element.find_element_by_xpath(".//td[6]").text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contact_list.append(Contact(firstname=fname, lastname=lname, home_phone=phone, id = id))
-        return contact_list
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.open_list_of_contact()
+            contacts = wd.find_elements_by_name("entry")
+            self.contact_cache = []
+            for element in contacts:
+                fname = element.find_element_by_xpath(".//td[3]").text
+                lname = element.find_element_by_xpath(".//td[2]").text
+                phone = element.find_element_by_xpath(".//td[6]").text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(firstname=fname, lastname=lname, home_phone=phone, id=id))
+        return self.contact_cache
 
     def count(self):
         wd = self.app.wd
@@ -32,6 +35,7 @@ class ContactHelper:
         self.fill_contact(contact)
         wd.find_element_by_name("update").click()
         self.app.return_to_home_page()
+        self.contact_cache = None
 
     def delete_first(self):
         wd = self.app.wd
@@ -40,6 +44,7 @@ class ContactHelper:
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         wd.switch_to.alert.accept()
         self.app.return_to_home_page()
+        self.contact_cache = None
 
     def create(self, contact):
         wd = self.app.wd
@@ -47,6 +52,7 @@ class ContactHelper:
         self.fill_contact(contact)
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.app.return_to_home_page()
+        self.contact_cache = None
 
     def fill_contact(self, contact):
         self.change_field_value("firstname", contact.firstname)
