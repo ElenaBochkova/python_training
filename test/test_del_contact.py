@@ -7,7 +7,10 @@ def test_delete_some_contact(app):
         app.contact.create(Contact(firstname="New",
                                lastname="Contact",
                                nickname="test",
-                               home_phone="7(900)9009090"))
+                               home_phone="79009009090",
+                                   mobile_phone="901111",
+                                   work_phone="80245",
+                                   secondary_phone='7(902)001'))
     old_contacts = app.contact.get_contact_list()
     index = randrange(len(old_contacts))
     app.contact.delete_by_index(index)
