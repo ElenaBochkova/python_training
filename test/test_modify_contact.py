@@ -10,13 +10,17 @@ def test_modify_first_contact(app):
                                home_phone="79009009090"),
                            mobile_phone="901111",
                            work_phone="80245",
-                           secondary_phone='7(902)001')
+                           secondary_phone='7(902)001',
+                           email1="mail1@mail.ru", email2="mail2@mail.ru", email3="mail3@mail.ru",
+                           address="Address one")
     old_contacts = app.contact.get_contact_list()
     index = randrange(len(old_contacts))
     contact = Contact(firstname="Boris", lastname="Grebenschikov",
                       nickname="modified", home_phone="78008008080",
                       mobile_phone="501001", work_phone="601001",
-                      secondary_phone='7(902)001'
+                      secondary_phone='7(902)001',
+                      email1="gr1@mail.ru", email2="gr2@mail.ru", email3="gr3@mail.ru",
+                      address="Address Gr one"
                       )
     contact.id = old_contacts[index].id
     app.contact.modify_by_index(contact, index)

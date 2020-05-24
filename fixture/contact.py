@@ -38,9 +38,16 @@ class ContactHelper:
         work_phone = wd.find_element_by_name("work").get_attribute("value")
         mobile_phone = wd.find_element_by_name("mobile").get_attribute("value")
         secondary_phone = wd.find_element_by_name("phone2").get_attribute("value")
+        email1 = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
+        address = wd.find_element_by_name("address").text
+        print(address)
         return Contact(firstname=firstname, lastname=lastname, id=id,
                        home_phone=home_phone, work_phone=work_phone,
-                       mobile_phone=mobile_phone, secondary_phone=secondary_phone)
+                       mobile_phone=mobile_phone, secondary_phone=secondary_phone,
+                       email1=email1, email2=email2, email3=email3,
+                       address=address)
 
     def get_contact_list(self):
         if self.contact_cache is None:
@@ -52,12 +59,14 @@ class ContactHelper:
                 cells = element.find_elements_by_tag_name("td")
                 lname = cells[1].text
                 fname = cells[2].text
-                all_phones = cells[5].text.splitlines()
+                address = cells[3].text
+                all_email = cells[4].text
+                all_phones = cells[5].text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                print(all_phones)
                 self.contact_cache.append(Contact(firstname=fname, lastname=lname, id=id,
-                                                  home_phone=all_phones[0], mobile_phone=all_phones[1],
-                                                  work_phone=all_phones[2], secondary_phone=all_phones[3]))
+                                                  all_phones_from_home_page=all_phones,
+                                                  address=address, all_email=all_email
+                                                  ))
         return self.contact_cache
 
     def count(self):
@@ -114,6 +123,10 @@ class ContactHelper:
         self.change_field_value("mobile", contact.mobile_phone)
         self.change_field_value("work", contact.work_phone)
         self.change_field_value("phone2", contact.secondary_phone)
+        self.change_field_value("email", contact.email1)
+        self.change_field_value("email2", contact.email2)
+        self.change_field_value("email3", contact.email3)
+        self.change_field_value("address", contact.address)
 
     def change_field_value(self, field, text):
         wd = self.app.wd
@@ -130,3 +143,18 @@ class ContactHelper:
         wd = self.app.wd
         if not(wd.current_url.endswith("/addressbook/")):
             wd.find_element_by_link_text("home").click()
+
+    def clear(self, s):
+        return re.sub("[() -]", "", s)
+
+    def merge_phones_like_on_home_page(self, contact):
+        print([contact.home_phone, contact.mobile_phone, contact.work_phone, contact.secondary_phone])
+        return "\n".join(filter(lambda x: x != "",
+                                map(lambda x: self.clear(x), filter(lambda x: x is not None,
+                                                               [contact.home_phone, contact.mobile_phone,
+                                                                contact.work_phone, contact.secondary_phone]))))
+
+    def merge_emails_like_on_home_page(self, contact):
+        return "\n".join(filter(lambda x: x != "",
+                                filter(lambda x: x is not None,
+                                       [contact.email1, contact.email2, contact.email3])))
