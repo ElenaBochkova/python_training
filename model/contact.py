@@ -24,7 +24,9 @@ class Contact:
         self.id = id
 
     def __repr__(self):
-        return f"{self.id}:{self.lastname}:{self.firstname}:{self.home_phone}"
+        return f"{self.id}:{self.lastname}:{self.firstname}:{self.nickname}:{self.home_phone}:" \
+               f"{self.mobile_phone}:{self.work_phone}:{self.secondary_phone}:" \
+               f"{self.email1}:{self.email2}:{self.email3}:{self.address}"
 
     def __eq__(self, other):
         return (self.id is None or other.id is None or self.id == other.id) and self.firstname == other.firstname and (
