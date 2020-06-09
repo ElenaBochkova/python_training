@@ -1,17 +1,18 @@
 from model.group import Group
-from random import randrange
+import random
 
 
-def test_modify_some_group(app):
-    if app.group.count() == 0:
+def test_modify_some_group(app, db):
+    if len(db.get_group_list()) == 0:
         app.group.create(Group(name="test"))
-    old_groups = app.group.get_group_list()
-    index = randrange(len(old_groups))
+    old_groups = db.get_group_list()
+    modified_group = random.choice(old_groups)
     group = Group(name="modified", header="modified", footer="modified")
-    group.id = old_groups[index].id
-    app.group.modify_by_index(group, index)
+    group.id = modified_group.id
+    app.group.modify_by_id(group, group.id)
     assert len(old_groups) == app.group.count()
-    new_groups = app.group.get_group_list()
+    new_groups = db.get_group_list()
+    index = old_groups.index(modified_group)
     old_groups[index] = group
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
