@@ -185,3 +185,21 @@ class ContactHelper:
         return "\n".join(filter(lambda x: x != "",
                                 filter(lambda x: x is not None,
                                        [contact.email1, contact.email2, contact.email3])))
+
+    def delete_contact_from_group(self, contact, group):
+        wd = self.app.wd
+        self.open_list_of_contact()
+        wd.find_element_by_name("group").click()
+        wd.find_element_by_xpath("//option[@value='%s']" % group.id).click()
+        self.select_by_id(contact.id)
+        wd.find_element_by_name("remove").click()
+        self.open_list_of_contact()
+
+    def add_contact_to_group(self, contact, group):
+        wd = self.app.wd
+        self.open_list_of_contact()
+        wd.find_element_by_name("to_group").click()
+        wd.find_element_by_xpath("(//option[@value='%s'])[2]" % group.id).click()
+        self.select_by_id(contact.id)
+        wd.find_element_by_name("add").click()
+        self.open_list_of_contact()
