@@ -1,0 +1,45 @@
+Started by user admin
+Running as SYSTEM
+Building in workspace C:\Users\alef\.jenkins\workspace\addressbook tests
+No credentials specified
+Cloning the remote Git repository
+Cloning repository https://github.com/ElenaBochkova/python_training
+ > git.exe init C:\Users\alef\.jenkins\workspace\addressbook tests # timeout=10
+Fetching upstream changes from https://github.com/ElenaBochkova/python_training
+ > git.exe --version # timeout=10
+ > git.exe fetch --tags --force --progress -- https://github.com/ElenaBochkova/python_training +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe config remote.origin.url https://github.com/ElenaBochkova/python_training # timeout=10
+ > git.exe config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe config remote.origin.url https://github.com/ElenaBochkova/python_training # timeout=10
+Fetching upstream changes from https://github.com/ElenaBochkova/python_training
+ > git.exe fetch --tags --force --progress -- https://github.com/ElenaBochkova/python_training +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/master^{commit}" # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/origin/master^{commit}" # timeout=10
+Checking out Revision ce26026f840e99d8759ec6e7bc485f6171f3006b (refs/remotes/origin/master)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f ce26026f840e99d8759ec6e7bc485f6171f3006b # timeout=10
+Commit message: "test/test_add_contact_to_group.py and test/test_delete_contact_from_group.py have been added"
+First time build. Skipping changelog.
+[addressbook tests] $ cmd.exe /C "C:\Users\alef\AppData\Local\Programs\Python\Python38-32\python.exe C:\Users\alef\.jenkins\shiningpanda\jobs\62ae2d4d\virtualenv.py C:\Users\alef\.jenkins\shiningpanda\jobs\62ae2d4d\virtualenvs\d41d8cd9 && exit %%ERRORLEVEL%%"
+PYTHONHOME is set.  You *must* activate the virtualenv before using it
+Using base prefix 'C:\\Users\\alef\\AppData\\Local\\Programs\\Python\\Python38-32'
+New python executable in C:\Users\alef\.jenkins\shiningpanda\jobs\62ae2d4d\virtualenvs\d41d8cd9\Scripts\python.exe
+Installing setuptools, pip, wheel...done.
+C:\Users\alef\.jenkins\shiningpanda\jobs\62ae2d4d\virtualenv.py:1041: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+[addressbook tests] $ cmd.exe /c call C:\Users\alef\AppData\Local\Temp\shiningpanda1821905720230578220.bat
+
+C:\Users\alef\.jenkins\workspace\addressbook tests>pip install -r requirements.txt 
+ERROR: Could not open requirements file: [Errno 2] No such file or directory: 'requirements.txt'
+
+C:\Users\alef\.jenkins\workspace\addressbook tests>py.test test\test_add_group.py 
+ImportError while loading conftest 'C:\Users\alef\.jenkins\workspace\addressbook tests\conftest.py'.
+conftest.py:8: in <module>
+    from fixture.orm import ORMFixture
+fixture\orm.py:1: in <module>
+    from pony.orm import *
+E   ModuleNotFoundError: No module named 'pony'
+
+C:\Users\alef\.jenkins\workspace\addressbook tests>exit 4 
+Build step 'Virtualenv Builder' marked build as failure
+Finished: FAILURE
